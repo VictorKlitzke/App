@@ -1,10 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="primary">#1D3557</color> <!-- Azul escuro para títulos e botões principais -->
+    <color name="primary_light">#457B9D</color> <!-- Azul claro para elementos secundários -->
+
+    <color name="secondary">#F1FAEE</color> <!-- Branco levemente acinzentado para fundo -->
+    <color name="secondary_light">#A8DADC</color> <!-- Azul claro para destaques -->
+
+    <color name="text_primary">#333333</color> <!-- Texto primário escuro -->
+    <color name="text_secondary">#7D7D7D</color> <!-- Texto secundário em cinza claro -->
+
+    <color name="accent">#E63946</color> <!-- Vermelho suave para alertas ou botões de ação -->
+    <color name="success">#2A9D8F</color> <!-- Verde suave para feedback positivo -->
+
+    <color name="background">#F1F1F1</color> <!-- Cor de fundo principal, suave e clara -->
+    <color name="card_background">#FFFFFF</color> <!-- Cor para fundo de cartões -->
 </resources>

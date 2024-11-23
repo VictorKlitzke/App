@@ -1,0 +1,27 @@
+
+a
+1app/src/main/java/com/example/klitzkeapp/login.kt,9/4/949e5fc1b7afbda8e427f5854750f273dc6bc931
+P
+ app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
+A
+gradle.properties,2/a/2afbb999f001938c88fa43fc2ef52abf0f8213e4
+I
+gradle/libs.versions.toml,d/7/d7595319a0658be6f1ed500ad590d42e4b28bc4f
+@
+build.gradle.kts,d/b/dbcff70658daf80b53ce624f6adcaa529df5ed8d
+C
+settings.gradle.kts,7/4/749edfcc96398253e5b3416184e95c46621da850
+D
+app/build.gradle.kts,d/2/d2a4383452aad84a18429a5844d31330a012a9e6
+T
+$.idea/codeStyles/codeStyleConfig.xml,d/d/dd7b3350c29c49497756c7f32c69a3bed18b1cba
+]
+-.idea/sonarlint/securityhotspotstore/index.pb,8/8/88a9255124c95bdc913197c120a8d560edc59c8e
+Å
+Q.idea/sonarlint/securityhotspotstore/8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e,1/f/1fe398aa86b382486ed27d0a69bf92f68bd5edaa
+w
+G.idea/sonarlint/issuestore/8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e,3/2/32813322c99a6c8a141ab2dc12bc10af3425f1b4
+Å
+Q.idea/sonarlint/securityhotspotstore/9/4/949e5fc1b7afbda8e427f5854750f273dc6bc931,2/9/29179154b276413725e768cc202dba22d505c1e1
+S
+#.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0
