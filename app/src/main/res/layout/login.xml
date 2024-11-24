@@ -2,120 +2,72 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:background="@drawable/bg_login">
+                android:padding="16dp"
+                android:background="@color/white"
+                tools:context=".ui.LoginActivity">
 
-    <!-- Título do login -->
+    <!-- Logo ou título -->
     <TextView
             android:id="@+id/login_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_activity_login"
-            android:textSize="24sp"
-            android:textColor="#333"
+            android:text="Bem-vindo"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            android:textStyle="bold"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginTop="48dp" />
 
-    <!-- Layout para o campo de usuário -->
+    <!-- Campo para nome de usuário -->
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/username_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/login_title"
-            android:layout_marginBottom="16dp">
+            android:layout_marginTop="32dp">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/login_username"
-                android:textColor="#333"
-                android:maxLines="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:hint="Usuário"
                 android:inputType="textPersonName"
-                android:drawableStart="@drawable/ic_username"/>
+                android:drawableStart="@drawable/ic_username"
+                android:importantForAccessibility="yes"
+                android:contentDescription="Campo de nome de usuário" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Layout para o campo de senha -->
+    <!-- Campo para senha -->
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/login_title"
-            android:layout_marginBottom="16dp">
+            android:layout_below="@id/username_layout"
+            android:layout_marginTop="16dp">
 
-        <EditText
-                android:id="@+id/username_layout"
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/login_username"
-                android:textColor="#333"
-                android:drawableStart="@drawable/ic_username"
-                android:maxLines="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:inputType="textPersonName"/>
+                android:hint="Senha"
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/ic_password"
+                android:importantForAccessibility="yes"
+                android:contentDescription="Campo de senha" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <!-- Layout para o campo de e-mail -->
-    <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/email_layout"
+    <!-- Botão de login -->
+    <Button
+            android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/password_layout"
-            android:layout_marginBottom="24dp"
-            android:boxBackgroundMode="none"
-            android:hintAnimationEnabled="false" tools:ignore="UnknownId">
-
-        <EditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_email"
-                android:inputType="textEmailAddress"
-                android:textColor="#333"
-                android:background="@drawable/edittext_background"
-                android:maxLines="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:drawableLeft="@drawable/ic_email"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Botões de ação -->
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/email_layout"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="16dp">
-
-        <Button
-                android:id="@+id/register"
-                style="?android:textAppearanceSmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/login_register"
-                android:textColor="#fff"
-                android:background="@color/material_dynamic_primary0"
-                android:textStyle="bold"/>
-
-        <Button
-                android:id="@+id/login"
-                style="?android:textAppearanceSmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/login_login"
-                android:textColor="#fff"
-                android:background="@color/text_secondary"
-                android:textStyle="bold"/>
-
-    </LinearLayout>
+            android:layout_marginTop="24dp"
+            android:text="Entrar"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/primary"
+            android:textStyle="bold"
+            android:importantForAccessibility="yes"
+            android:contentDescription="Botão de login" />
 
 </RelativeLayout>

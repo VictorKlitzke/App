@@ -1,9 +1,11 @@
 <resources>
-    <color name="primary">#1D3557</color> <!-- Azul escuro para títulos e botões principais -->
-    <color name="primary_light">#457B9D</color> <!-- Azul claro para elementos secundários -->
+  <color name="primary_light">#457B9D</color> <!-- Azul claro para elementos secundários -->
 
     <color name="secondary">#F1FAEE</color> <!-- Branco levemente acinzentado para fundo -->
     <color name="secondary_light">#A8DADC</color> <!-- Azul claro para destaques -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="primary">#6200EE</color>
 
     <color name="text_primary">#333333</color> <!-- Texto primário escuro -->
     <color name="text_secondary">#7D7D7D</color> <!-- Texto secundário em cinza claro -->
