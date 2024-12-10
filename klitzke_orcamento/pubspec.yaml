@@ -1,0 +1,22 @@
+name: klitzke_orcamento
+description: A new Flutter project
+
+publish_to: 'none' # Remove this line if you're publishing the package
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.2  # Verifique a versão mais recente
+  # Adicione outras dependências aqui
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
