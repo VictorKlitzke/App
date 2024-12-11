@@ -2,12 +2,12 @@ const jwt = require('jsonwebtoken');
 const pool = require('../database/index');
 
 module.exports = async (req, res, next) => {
-  const token = req.cookies['token'];
+  const token = req.headers['authorization']?.split(' ')[1]; 
 
   if (!token) {
-    return res.status(401).json({ message: '[AVISO] - TOKEN NÃO INFORMADO' });
+    return res.status(401).json({ message: 'Token não enviado ou inválido.' });
   }
-
+  
   try {
     const decoded = jwt.verify(token, process.env.TOKEN);
     const userId = decoded.id;

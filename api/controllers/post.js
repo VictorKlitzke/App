@@ -6,6 +6,8 @@ require("dotenv").config();
 exports.login = async (req, res) => {
     const { username, password } = req.body;
 
+    console.log(username)
+
     try {
         const [rows] = await pool.query("SELECT * FROM users WHERE name = ?", [username]);
 
@@ -33,6 +35,8 @@ exports.login = async (req, res) => {
             maxAge: 18000000
         })
 
+        console.log('Login token', token);
+
         return res.json({ authorization: true, message: "Login realizado com sucesso", UserId: user.id });
 
     } catch (error) {
@@ -44,6 +48,8 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
     const token = req.cookies['token']
     console.log(req.cookies['token']);
+
+    console.log('Logout', token);
 
     if (token) {
         res.cookie('token', '', { expires: new Date(0), path: '/' });
