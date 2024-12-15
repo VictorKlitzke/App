@@ -15,21 +15,21 @@ exports.user = async (req, res) => {
   }
 };
 
-exports.accounts = (req, res) => {
+exports.getCategorys = (req, res) => {
   try {
     const userId = req.user.id;
 
-    pool.all('SELECT * FROM contas WHERE usuario_id = ?', [userId], (err, rows) => {
+    pool.all('SELECT * FROM categorias WHERE usuario_id = ?', [userId], (err, rows) => {
       if (err) {
         console.error('Erro na consulta:', err);
         return res.status(500).json({ message: 'Erro interno no servidor', error: err.message });
       }
 
       if (rows.length === 0) {
-        return res.status(404).json({ message: 'Nenhuma conta encontrada para o usuário logado.' });
+        return res.status(404).json({ message: 'Nenhuma categorias encontrada para o usuário logado.' });
       }
 
-      return res.status(200).json({ accounts: rows });
+      return res.status(200).json({ getCategorys: rows });
     });
   } catch (error) {
     console.error('Erro na consulta:', error);

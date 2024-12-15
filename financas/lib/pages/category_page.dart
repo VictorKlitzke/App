@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:klitzke_orcamento/pages/dashboard_page.dart';
 import 'package:klitzke_orcamento/services/api_service.dart';
 
 class CategoryRegisterPage extends StatefulWidget {
@@ -9,10 +8,32 @@ class CategoryRegisterPage extends StatefulWidget {
 
 class _CategoryRegisterPageState extends State<CategoryRegisterPage> {
   final TextEditingController categoryController = TextEditingController();
+  final GetServices getServices = GetServices();
   final PostServices postServices = PostServices();
-  String selectedType = 'Entrada';
 
+  String selectedType = 'Entrada';
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategories();
+  }
+
+  List<Map<String, dynamic>> getCategorys = [];
+
+  void fetchCategories() async {
+    try {
+      final result = await getServices.getCategorys();
+      setState(() {
+        getCategorys = result;
+      });
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Erro ao carregar categorias')),
+      );
+    }
+  }
 
   void registerCategory(BuildContext context) async {
     final category = categoryController.text.trim();
@@ -20,12 +41,8 @@ class _CategoryRegisterPageState extends State<CategoryRegisterPage> {
     if (category.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text('Por favor, preencha o nome da categoria!')),
-      );
-      return;
-    } else if (selectedType.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Por favor, o tipo da categoria!')),
+          content: Text('Por favor, preencha o nome da categoria!'),
+        ),
       );
       return;
     }
@@ -46,7 +63,8 @@ class _CategoryRegisterPageState extends State<CategoryRegisterPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Categoria cadastrada com sucesso!')),
       );
-      Navigator.pop(context);
+      categoryController.clear();
+      fetchCategories();
     }
   }
 
@@ -55,42 +73,49 @@ class _CategoryRegisterPageState extends State<CategoryRegisterPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cadastrar Categoria'),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text('Menu',
-                  style: TextStyle(color: Colors.white, fontSize: 24)),
-            ),
-            ListTile(
-              title: const Text('Dashboard'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => DashboardPage()));
-              },
-            ),
-          ],
-        ),
+        backgroundColor: Colors.blue.shade700,
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 20),
+            Text(
+              'Nome da Categoria',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue.shade700,
+              ),
+            ),
+            const SizedBox(height: 8),
             TextField(
               controller: categoryController,
               decoration: InputDecoration(
-                  labelText: 'Nome da Categoria',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  prefixIcon: const Icon(Icons.category)),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue.shade700, width: 2),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue.shade700, width: 2),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
+            Text(
+              'Tipo de Categoria',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue.shade700,
+              ),
+            ),
+            const SizedBox(height: 8),
             DropdownButtonFormField<String>(
               value: selectedType,
               onChanged: (String? newValue) {
@@ -106,35 +131,83 @@ class _CategoryRegisterPageState extends State<CategoryRegisterPage> {
                 );
               }).toList(),
               decoration: InputDecoration(
-                labelText: 'Tipo de Categoria',
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.blue.shade700, width: 2),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                prefixIcon: const Icon(Icons.arrow_drop_down),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue.shade700, width: 2),
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
             ),
             const SizedBox(height: 24),
-            isLoading
-                ? const CircularProgressIndicator()
-                : SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () => registerCategory(context),
-                      style: ElevatedButton.styleFrom(
-                        shadowColor: Colors.blue, // Cor personalizada
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 16, horizontal: 24),
-                      ),
-                      child: const Text(
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: isLoading ? null : () => registerCategory(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue.shade700,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+                child: isLoading
+                    ? const CircularProgressIndicator(
+                        color: Colors.white,
+                      )
+                    : const Text(
                         'Cadastrar',
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'Categorias Cadastradas',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue.shade700,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: getCategorys.isEmpty
+                  ? const Center(
+                      child: Text('Nenhuma categoria cadastrada ainda'),
+                    )
+                  : ListView.builder(
+                      itemCount: getCategorys.length,
+                      itemBuilder: (context, index) {
+                        final category = getCategorys[index];
+                        return Card(
+                          elevation: 2,
+                          child: ListTile(
+                            leading: Icon(
+                              category['tipo'] == 'Entrada'
+                                  ? Icons.arrow_upward
+                                  : Icons.arrow_downward,
+                              color: category['tipo'] == 'Entrada'
+                                  ? Colors.green
+                                  : Colors.red,
+                            ),
+                            title: Text(category['nome'] ??
+                                'Sem nome'),
+                            subtitle: Text(
+                                'Tipo: ${category['tipo']}'),
+                          ),
+                        );
+                      },
                     ),
-                  ),
+            ),
           ],
         ),
       ),

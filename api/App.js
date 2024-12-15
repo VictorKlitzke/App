@@ -5,7 +5,7 @@ const authRouters = require('./routers/index');
 const cookieParser = require('cookie-parser');
 
 const corsOptions = {
-  origin: 'http://192.168.1.4:3000',
+  origin: 'http://192.168.1.8:3000',
   credentials: true,
   optionsSuccessStatus: 200,
 };

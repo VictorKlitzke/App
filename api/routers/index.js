@@ -7,9 +7,10 @@ const auth = require('../middleware/auth');
 
 router.post('/register', authPost.register)
 router.post('/login', authPost.login);
+router.post('/registerCategory', auth, authPost.registerCategory);
 router.post('/logout', auth, authPost.logout);
 
 router.get('/users', auth, authget.user);
-router.get('/accounts', auth, authget.accounts);
+router.get('/getCategorys', auth, authget.getCategorys);
 
 module.exports = router;

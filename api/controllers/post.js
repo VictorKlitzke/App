@@ -19,7 +19,7 @@ exports.login = async (req, res) => {
                 return res.status(401).json({ error: "Usuário ou senha inválidos" });
             }
 
-            user.senha = user.senha.replace("$2y$", "$2a$"); 
+            user.senha = user.senha.replace("$2y$", "$2a$");
             const isPasswordValid = await bcrypt.compare(password, user.senha);
             if (!isPasswordValid) {
                 return res.status(401).json({ error: "Senha incorreta" });
@@ -32,7 +32,7 @@ exports.login = async (req, res) => {
                 sameSite: 'lax',
                 maxAge: 18000000
             });
-            
+
             return res.json({
                 authorization: true,
                 token: token,
@@ -48,11 +48,14 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-    const token = req.cookies['token']
-    console.log(req.cookies['token']);
+    const token = req.cookies['token'] || req.headers['authorization'];
 
     if (token) {
-        res.cookie('token', '', { expires: new Date(0), path: '/' });
+        res.cookie('token', '', {
+            expires: new Date(0),
+            path: '/',
+            httpOnly: true, // Garantir que o cookie seja acessível apenas pelo servidor
+        });
     }
     res.status(200).json({ authorization: false, message: 'Logout realizado com sucesso' });
 }
@@ -75,6 +78,38 @@ exports.register = async (req, res) => {
 
     } catch (error) {
         console.error("Erro ao registrar usuário:", error.message);
+        return res.status(500).json({ error: 'Erro interno no servidor' });
+    }
+};
+
+exports.registerCategory = (req, res) => {
+    const { category, type } = req.body;
+    const userId = req.user.id;
+
+    console.log(category, type);
+
+
+    if (!category) {
+        return res.status(400).json({ error: 'Nome da categoria vazio!' });
+    }
+    if (!userId) {
+        return res.status(400).json({ error: 'ID do usuário não encontrado!' });
+    }
+    try {
+
+        const existCategories = pool.get('SELECT * FROM categorias WHERE nome = ? AND usuario_id = ?', [category, userId]);
+        console.log(existCategories)
+        if (!existCategories) {
+            return res.status(400).json({ error: 'Essa categoria já existe para esse usuário' });
+        }
+
+        const stmt = pool.prepare('INSERT INTO categorias (nome, tipo, usuario_id) VALUES (?, ?, ?)');
+        const result = stmt.run(category, type, userId);
+
+        return res.status(201).json({ message: 'Categoria criado com sucesso!' });
+
+    } catch (error) {
+        console.error("Erro ao registrar categoria do usuario:", error.message);
         return res.status(500).json({ error: 'Erro interno no servidor' });
     }
 };
