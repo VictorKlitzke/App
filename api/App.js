@@ -5,10 +5,11 @@ const authRouters = require('./routers/index');
 const cookieParser = require('cookie-parser');
 
 const corsOptions = {
-  origin: true,
-  optionsSuccessStatus: 200,
+  origin: 'http://192.168.1.4:3000',
   credentials: true,
+  optionsSuccessStatus: 200,
 };
+
 
 const app = express();
 app.use(cors(corsOptions));
@@ -18,5 +19,5 @@ app.use("/api", authRouters)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor rodando ${PORT}`);
+  console.log(`Servidor rodando ${PORT}`);
 })

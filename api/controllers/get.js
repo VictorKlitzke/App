@@ -1,50 +1,38 @@
 const pool = require("../database/index")
 require("dotenv").config();
-
-exports.sales = async (req, res) => {
+exports.user = async (req, res) => {
   try {
-    const [rows] = await pool.query(`
-      SELECT 
-        s.id AS codigo,
-        s.date_sales AS dataVenda,
-        s.total_value AS totalVenda,
-        fp.name AS formaDePagamento,
-        c.name AS clientes,
-        u.name AS usuarios
-      FROM 
-        sales s 
-        INNER JOIN users u ON u.id = s.id_users 
-        LEFT JOIN clients c ON c.id = s.id_client 
-        INNER JOIN form_payment fp ON fp.id = s.id_payment_method
-    `);
+    pool.all('SELECT * FROM usuarios', [], (err, rows) => {
+      if (err) {
+        return res.status(500).json({ message: 'Erro ao consultar clientes', error: err.message });
+      }
 
-    const [[countResult]] = await pool.query(`
-      SELECT COUNT(*) AS totalVendas
-      FROM sales
-    `);
-
-    return res.status(200).json({
-      authorization: true, 
-      sales: rows,
-      count: countResult.totalVendas,
+      return res.status(200).json({ authorization: true, user: rows });
     });
-    
   } catch (error) {
-    console.error("Erro na consulta:", error);
-    return res.status(500).json({ message: 'Erro ao consultar vendas', error: error.message });
+    console.error('Erro na consulta:', error);
+    return res.status(500).json({ message: 'Erro interno no servidor', error: error.message });
   }
-}
+};
 
-
-exports.clients = async (req, res) => {
+exports.accounts = (req, res) => {
   try {
+    const userId = req.user.id;
 
-    const [rows] = await pool.query('SELECT * FROM clients');
+    pool.all('SELECT * FROM contas WHERE usuario_id = ?', [userId], (err, rows) => {
+      if (err) {
+        console.error('Erro na consulta:', err);
+        return res.status(500).json({ message: 'Erro interno no servidor', error: err.message });
+      }
 
-    return res.status(200).json({ authorization: true, clients: rows });
+      if (rows.length === 0) {
+        return res.status(404).json({ message: 'Nenhuma conta encontrada para o usuário logado.' });
+      }
 
+      return res.status(200).json({ accounts: rows });
+    });
   } catch (error) {
-    console.error("Erro na consulta:", error);
-    return res.status(500).json({ message: 'Erro ao consultar vendas', error: error.message });
+    console.error('Erro na consulta:', error);
+    return res.status(500).json({ message: 'Erro interno no servidor', error: error.message });
   }
-}
+};

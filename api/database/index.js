@@ -1,15 +1,14 @@
-require("dotenv").config();
-const mysql = require("mysql2/promise");
+const sqllite3 = require('sqlite3').verbose();   
+const path = require('path');
 
-const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    port: process.env.DB_PORT,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+const dbPath = path.resolve(__dirname, './financas.db');
+
+const pool = new sqllite3.Database(dbPath, (err) => {
+    if (err) {
+        console.error("Erro ao conectar ao banco de dados SQLite:", err.message);
+    } else {
+        console.log("Conectado ao banco de dados SQLite com sucesso!");
+    }
 });
 
-module.exports = pool;
+module.exports = pool
