@@ -12,5 +12,6 @@ router.post('/logout', auth, authPost.logout);
 
 router.get('/users', auth, authget.user);
 router.get('/getCategorys', auth, authget.getCategorys);
+router.get('/getAccounts', auth, authget.getAccounts);
 
 module.exports = router;

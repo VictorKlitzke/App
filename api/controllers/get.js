@@ -36,3 +36,22 @@ exports.getCategorys = (req, res) => {
     return res.status(500).json({ message: 'Erro interno no servidor', error: error.message });
   }
 };
+
+exports.getAccounts = (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    pool.all('SELECT nome, saldo_inicial FROM contas WHERE usuario_id = ?', [userId], (err, result) => {
+      if (err) {
+        console.error('Erro na consulta:', err);
+        return res.status(500).json({ message: 'Erro interno no servidor', error: err.message });
+      } else if (result.length === 0) {
+        return res.status(404).json({ message: 'Nenhuma conta encontrada para o usuário logado.' });
+      }
+      return res.status(200).json({ getAccounts: result });
+    })
+  } catch (error) {
+    console.error('Erro na consulta:', error);
+    return res.status(500).json({ message: 'Erro interno no servidor', error: error.message });
+  }
+}

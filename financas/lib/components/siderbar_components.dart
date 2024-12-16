@@ -57,6 +57,14 @@ class SiderBarComponents extends StatelessWidget {
             Navigator.pushNamed(context, '/category');
           },
         ),
+        ListTile(
+          leading: const Icon(Icons.expand),
+          title: const Text('Despesas'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/expenses');
+          }
+        ),
         const Divider(),
         ListTile(
           leading: const Icon(Icons.exit_to_app),
