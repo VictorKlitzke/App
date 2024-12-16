@@ -8,6 +8,8 @@ const auth = require('../middleware/auth');
 router.post('/register', authPost.register)
 router.post('/login', authPost.login);
 router.post('/registerCategory', auth, authPost.registerCategory);
+router.post('/registerAccounts', auth, authPost.registerAccounts);
+router.post('/registerExpense', auth, authPost.registerExpense);
 router.post('/logout', auth, authPost.logout);
 
 router.get('/users', auth, authget.user);

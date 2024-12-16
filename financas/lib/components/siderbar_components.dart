@@ -41,14 +41,14 @@ class SiderBarComponents extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontSize: 24),
           ),
         ),
-        ListTile(
-          leading: const Icon(Icons.add),
-          title: const Text('Criar Orçamento'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/orcamento');
-          },
-        ),
+        // ListTile(
+        //   leading: const Icon(Icons.add),
+        //   title: const Text('Criar Orçamento'),
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //     Navigator.pushNamed(context, '/orcamento');
+        //   },
+        // ),
         ListTile(
           leading: const Icon(Icons.category),
           title: const Text('Categorias'),
@@ -58,11 +58,19 @@ class SiderBarComponents extends StatelessWidget {
           },
         ),
         ListTile(
+          leading: const Icon(Icons.account_balance_outlined),
+          title: const Text('Contas'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/accounts');
+          }
+        ),
+        ListTile(
           leading: const Icon(Icons.expand),
           title: const Text('Despesas'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/expenses');
+            Navigator.pushNamed(context, '/expense');
           }
         ),
         const Divider(),

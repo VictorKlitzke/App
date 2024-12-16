@@ -6,8 +6,6 @@ require("dotenv").config();
 exports.login = async (req, res) => {
     const { username, password } = req.body;
 
-    console.log("Usuário:", username);
-
     try {
         pool.get("SELECT * FROM usuarios WHERE nome = ?", [username], async (err, user) => {
             if (err) {
@@ -86,9 +84,6 @@ exports.registerCategory = (req, res) => {
     const { category, type } = req.body;
     const userId = req.user.id;
 
-    console.log(category, type);
-
-
     if (!category) {
         return res.status(400).json({ error: 'Nome da categoria vazio!' });
     }
@@ -98,7 +93,6 @@ exports.registerCategory = (req, res) => {
     try {
 
         const existCategories = pool.get('SELECT * FROM categorias WHERE nome = ? AND usuario_id = ?', [category, userId]);
-        console.log(existCategories)
         if (!existCategories) {
             return res.status(400).json({ error: 'Essa categoria já existe para esse usuário' });
         }
@@ -110,6 +104,61 @@ exports.registerCategory = (req, res) => {
 
     } catch (error) {
         console.error("Erro ao registrar categoria do usuario:", error.message);
+        return res.status(500).json({ error: 'Erro interno no servidor' });
+    }
+};
+exports.registerAccounts = (req, res) => {
+    const { account, balance } = req.body;
+    const userId = req.user.id;
+
+    if (!account) {
+        return res.status(400).json({ error: 'Nome da categoria vazio!' });
+    }
+    if (!userId) {
+        return res.status(400).json({ error: 'ID do usuário não encontrado!' });
+    }
+    try {
+
+        const existCategories = pool.get('SELECT * FROM contas WHERE nome = ? AND usuario_id = ?', [account, userId]);
+        if (!existCategories) {
+            return res.status(400).json({ error: 'Essa contas já existe para esse usuário' });
+        }
+
+        const stmt = pool.prepare('INSERT INTO contas (nome, saldo_inicial, usuario_id) VALUES (?, ?, ?)');
+        const result = stmt.run(account, balance, userId);
+
+        return res.status(201).json({ message: 'Conta criada com sucesso!' });
+
+    } catch (error) {
+        console.error("Erro ao registrar conta do usuario:", error.message);
+        return res.status(500).json({ error: 'Erro interno no servidor' });
+    }
+};
+exports.registerExpense = (req, res) => {
+    const { expense } = req.body;
+    const userId = req.user.id;
+    
+    if (!expense) {
+        return res.status(400).json({ error: 'Nome da categoria vazio!' });
+    }
+    if (!userId) {
+        return res.status(400).json({ error: 'ID do usuário não encontrado!' });
+    }
+    try {
+
+        const { categoria_id, conta_id, valor, tipo, descricao, data_transacao } = expense;
+
+        const stmt = pool.prepare(`
+            INSERT INTO transacoes (categoria_id, conta_id, valor, tipo, descricao, usuario_id, data_transacao) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `);
+
+        const result = stmt.run(categoria_id, conta_id, valor, tipo, descricao, userId, data_transacao);
+
+        return res.status(201).json({ message: 'Transição criada com sucesso!' });
+
+    } catch (error) {
+        console.error("Erro ao registrar conta do usuario:", error.message);
         return res.status(500).json({ error: 'Erro interno no servidor' });
     }
 };

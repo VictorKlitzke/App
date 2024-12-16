@@ -41,7 +41,7 @@ exports.getAccounts = (req, res) => {
   try {
     const userId = req.user.id;
 
-    pool.all('SELECT nome, saldo_inicial FROM contas WHERE usuario_id = ?', [userId], (err, result) => {
+    pool.all('SELECT id, nome, saldo_inicial FROM contas WHERE usuario_id = ?', [userId], (err, result) => {
       if (err) {
         console.error('Erro na consulta:', err);
         return res.status(500).json({ message: 'Erro interno no servidor', error: err.message });

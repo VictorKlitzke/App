@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:klitzke_orcamento/pages/accounts_page.dart';
 import 'package:klitzke_orcamento/pages/category_page.dart';
+import 'package:klitzke_orcamento/pages/expenses_page.dart';
 import 'package:klitzke_orcamento/pages/login_page.dart';
 import 'package:klitzke_orcamento/pages/dashboard_page.dart';
 import 'package:klitzke_orcamento/dio/api_client.dart';
@@ -24,6 +26,8 @@ class Myapp extends StatelessWidget {
         '/dashboard': (context) => DashboardPage(),
         '/register': (context) => RegisterPage(),
         '/category': (context) => CategoryRegisterPage(),
+        '/expense': (context) => ExpensesPage(),
+        '/accounts': (context) => AccountsRegisterPage()
       },
     );
   }
