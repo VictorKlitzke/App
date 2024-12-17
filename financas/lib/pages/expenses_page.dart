@@ -57,7 +57,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
   void fetchAccounts() async {
     try {
       final result = await getServices.getAccounts();
-      print('result: $result');
       setState(() {
         getAccounts = result
             .map((item) => {

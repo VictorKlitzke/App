@@ -5,29 +5,46 @@ import 'package:klitzke_orcamento/pages/expenses_page.dart';
 import 'package:klitzke_orcamento/pages/login_page.dart';
 import 'package:klitzke_orcamento/pages/dashboard_page.dart';
 import 'package:klitzke_orcamento/dio/api_client.dart';
+import 'package:klitzke_orcamento/pages/profile_page.dart';
 import 'package:klitzke_orcamento/pages/register_page.dart';
+import 'package:klitzke_orcamento/layout/base_layout.dart';
+import 'package:klitzke_orcamento/pages/settings_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   configureDio();
-  runApp(Myapp());
+  runApp(const MyApp());
 }
 
-class Myapp extends StatelessWidget {
-  const Myapp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-     return MaterialApp(
+    return MaterialApp(
       title: 'Klitzke',
       theme: ThemeData(primarySwatch: Colors.blue),
       initialRoute: '/login',
       routes: {
         '/login': (context) => LoginPage(),
-        '/dashboard': (context) => DashboardPage(),
         '/register': (context) => RegisterPage(),
-        '/category': (context) => CategoryRegisterPage(),
-        '/expense': (context) => ExpensesPage(),
-        '/accounts': (context) => AccountsRegisterPage()
+        '/dashboard': (context) => DashboardPage(),
+        '/settings': (context) => BaseLayout(
+            body: SettingsPage()
+          ),
+        '/profile': (context) => BaseLayout(
+            body: ProfilePage()
+          ),
+        '/category': (context) => BaseLayout(
+              body: CategoryRegisterPage(),
+            ),
+        '/expense': (context) => BaseLayout(
+              body: ExpensesPage(),
+            ),
+        '/accounts': (context) => BaseLayout(
+              body: AccountsRegisterPage(),
+            ),
       },
     );
   }

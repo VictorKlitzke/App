@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:klitzke_orcamento/layout/base_layout.dart';
+import 'package:klitzke_orcamento/services/api_service.dart';
 import '../components/siderbar_components.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -8,45 +10,95 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _FinancialDashboardPageState extends State<DashboardPage> {
-  final double saldoAtual = 12000.00;
-  final double totalReceitas = 18500.00;
-  final double totalDespesas = 6500.00;
+  final GetServices getServices = GetServices();
 
-  final List<Map<String, String>> transacoesRecentes = [
-    {
-      "Descrição": "Recebimento de Cliente",
-      "Valor": "R\$ 5000.00",
-      "Data": "15/12/2024"
-    },
-    {
-      "Descrição": "Pagamento de Fornecedor",
-      "Valor": "-R\$ 1200.00",
-      "Data": "14/12/2024"
-    },
-    {
-      "Descrição": "Compra de Material",
-      "Valor": "-R\$ 300.00",
-      "Data": "13/12/2024"
-    },
-    {"Descrição": "Receita Extra", "Valor": "R\$ 800.00", "Data": "12/12/2024"},
-  ];
+  List<Map<String, dynamic>> getTransitions = [];
+  List<Map<String, dynamic>> transacoesRecentes = [];
+
+  double saldoAtual = 0.0;
+  double totalReceitas = 0.0;
+  double totalDespesas = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchTransactions();
+    fetchRecentes();
+  }
+
+  void fetchRecentes() async {
+    try {
+      final result = await getServices.getTransition();
+      setState(() {
+        transacoesRecentes = result
+            .map((item) => {
+                  'Descrição': item['descricao'] ?? 'Sem descrição',
+                  'Data': item['data_transacao'] ?? 'Data desconhecida',
+                  'Valor': item['valor']?.toString() ?? '0.00',
+                })
+            .take(4)
+            .toList();
+      });
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao tentar buscar transações recentes!'),
+        ),
+      );
+    }
+  }
+
+  void fetchTransactions() async {
+    try {
+      final result = await getServices.getTransition();
+
+      double saldoTemp = 0.0;
+      double receitasTemp = 0.0;
+      double despesasTemp = 0.0;
+
+      setState(() {
+        getTransitions = result
+            .map((item) => {
+                  'id': item['id'] ?? '0',
+                  'Descrição': item['descricao'] ?? 'Sem descrição',
+                  'Data': item['data_transacao'] ?? 'Data desconhecida',
+                  'valor': item['valor'] ?? '0',
+                  'tipo': item['tipo'] ?? 'entrada',
+                })
+            .toList();
+
+        for (var item in result) {
+          double valor = double.tryParse(item['valor']
+                  .toString()
+                  .replaceAll(',', '')
+                  .replaceAll('.', '')) ??
+              0.0;
+          if (item['tipo'] == 'Entrada') {
+            receitasTemp = valor;
+          } else if (item['tipo'] == 'Saída') {
+            despesasTemp = valor;
+          } else {
+            saldoTemp = valor;
+          }
+        }
+        saldoAtual = saldoTemp;
+        totalReceitas = receitasTemp;
+        totalDespesas = despesasTemp;
+
+        print(transacoesRecentes);
+      });
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao tentar buscar informações para o dashboard!'),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard Financeiro'),
-        backgroundColor: const Color(0xFF0066CC),
-        centerTitle: true,
-        elevation: 0,
-        titleTextStyle: const TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      drawer: Drawer(child: SiderBarComponents()),
-      backgroundColor: const Color(0xFFF3F7FB), // Fundo suave
+    return BaseLayout(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -77,16 +129,20 @@ class _FinancialDashboardPageState extends State<DashboardPage> {
   }
 
   Widget _buildCards() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        _buildCard(
-            'Saldo Atual', 'R\$ ${saldoAtual.toStringAsFixed(2)}', Colors.teal),
-        _buildCard('Receitas', 'R\$ ${totalReceitas.toStringAsFixed(2)}',
-            Colors.green),
-        _buildCard('Despesas', 'R\$ ${totalDespesas.toStringAsFixed(2)}',
-            Colors.redAccent),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _buildCard('Saldo Atual', 'R\$ ${saldoAtual.toStringAsFixed(2)}',
+              Colors.teal),
+          _buildCard('Receitas', 'R\$ ${totalReceitas.toStringAsFixed(2)}',
+              Colors.green),
+          _buildCard('Despesas', 'R\$ ${totalDespesas.toStringAsFixed(2)}',
+              Colors.redAccent),
+        ],
+      ),
     );
   }
 
@@ -203,20 +259,24 @@ class _FinancialDashboardPageState extends State<DashboardPage> {
         const SizedBox(height: 10),
         Column(
           children: transacoesRecentes.map((transacao) {
+            final descricao = transacao["descricao"] ?? 'Sem descrição';
+            final data = transacao["data_transacao"] ?? 'Data desconhecida';
+            final valor = transacao["valor"] != null
+                ? transacao["valor"].toString()
+                : 'R\$ 0,00'; // Conversão explícita para String
+
             return Card(
               margin: const EdgeInsets.symmetric(vertical: 8),
               child: ListTile(
                 title: Text(
-                  transacao["Descrição"]!,
+                  descricao,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text('Data: ${transacao["Data"]}'),
+                subtitle: Text('Data: $data'),
                 trailing: Text(
-                  transacao["Valor"]!,
+                  'R\$ $valor',
                   style: TextStyle(
-                    color: transacao["Valor"]!.contains('-')
-                        ? Colors.red
-                        : Colors.green,
+                    color: valor.contains('-') ? Colors.red : Colors.green,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
