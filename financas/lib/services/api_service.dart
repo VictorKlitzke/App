@@ -18,7 +18,8 @@ class PostServices {
 
   Future<bool> registerExpense(data) async {
     try {
-      final response = await dio.post('registerExpense', data: {'expense': data});
+      final response =
+          await dio.post('registerExpense', data: {'expense': data});
       if (response.statusCode == 200) {
         return true;
       } else {
@@ -73,6 +74,19 @@ class GetServices {
       }
     } catch (error) {
       print('Erro ao buscar lista de constas $error');
+      return [];
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getTransition() async {
+    try {
+      final response = await dio.get('getTransition');
+      if (response.data != null && response.data['getTransition'] != null) {
+        return List<Map<String, dynamic>>.from(response.data['getTransition']);
+      } else {
+        return [];
+      }
+    } catch (error) {
       return [];
     }
   }

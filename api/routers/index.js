@@ -15,5 +15,6 @@ router.post('/logout', auth, authPost.logout);
 router.get('/users', auth, authget.user);
 router.get('/getCategorys', auth, authget.getCategorys);
 router.get('/getAccounts', auth, authget.getAccounts);
+router.get('/getTransition', auth, authget.getTransition);
 
 module.exports = router;

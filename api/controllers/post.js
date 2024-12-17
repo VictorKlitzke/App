@@ -1,4 +1,5 @@
 const pool = require("../database/index")
+const { formmater } = require("../utils/index");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -52,7 +53,7 @@ exports.logout = async (req, res) => {
         res.cookie('token', '', {
             expires: new Date(0),
             path: '/',
-            httpOnly: true, // Garantir que o cookie seja acessível apenas pelo servidor
+            httpOnly: true,
         });
     }
     res.status(200).json({ authorization: false, message: 'Logout realizado com sucesso' });
@@ -107,6 +108,7 @@ exports.registerCategory = (req, res) => {
         return res.status(500).json({ error: 'Erro interno no servidor' });
     }
 };
+
 exports.registerAccounts = (req, res) => {
     const { account, balance } = req.body;
     const userId = req.user.id;
@@ -134,10 +136,11 @@ exports.registerAccounts = (req, res) => {
         return res.status(500).json({ error: 'Erro interno no servidor' });
     }
 };
+
 exports.registerExpense = (req, res) => {
     const { expense } = req.body;
     const userId = req.user.id;
-    
+
     if (!expense) {
         return res.status(400).json({ error: 'Nome da categoria vazio!' });
     }
@@ -147,13 +150,32 @@ exports.registerExpense = (req, res) => {
     try {
 
         const { categoria_id, conta_id, valor, tipo, descricao, data_transacao } = expense;
-
+        // const valueFormmater = formmater(valor)
+        console.log(valor);
         const stmt = pool.prepare(`
             INSERT INTO transacoes (categoria_id, conta_id, valor, tipo, descricao, usuario_id, data_transacao) 
             VALUES (?, ?, ?, ?, ?, ?, ?)
         `);
 
         const result = stmt.run(categoria_id, conta_id, valor, tipo, descricao, userId, data_transacao);
+
+        if (tipo === 'Saída') {
+            const stmt1 = pool.prepare(`
+                UPDATE contas 
+                SET saldo_inicial = saldo_inicial - ? 
+                WHERE id = ?
+            `);
+            const result1 = stmt1.run(valor.trim(), conta_id);
+        } else if (tipo === 'Entrada') {
+            const stmt1 = pool.prepare(`
+                UPDATE contas 
+                SET saldo_inicial = saldo_inicial + ? 
+                WHERE id = ?
+            `);
+            const result1 = stmt1.run(valor.trim(), conta_id);
+        } else {
+            return res.status(500).json({ message: 'Erro ao atualizar a tabela de contas' });
+        }
 
         return res.status(201).json({ message: 'Transição criada com sucesso!' });
 

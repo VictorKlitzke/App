@@ -55,3 +55,21 @@ exports.getAccounts = (req, res) => {
     return res.status(500).json({ message: 'Erro interno no servidor', error: error.message });
   }
 }
+
+exports.getTransition = (req, res) => {
+  const userId = req.user.id;
+  try {
+    pool.all('SELECT * FROM transacoes WHERE usuario_id = ?', [userId], (err, result) => {
+      if (err) {
+        console.error('Erro na consulta:', err);
+        return res.status(500).json({ message: 'Erro interno no servidor', error: err.message });
+      } else if (result.length === 0) {
+        return res.status(404).json({ message: 'Nenhuma transacoes encontrada para o usuário logado.' });
+      }
+      return res.status(200).json({ getTransition: result });
+    })
+  } catch (error) {
+    console.error('Erro na consulta:', error);
+    return res.status(500).json({ message: 'Erro interno no servidor', error: error.message });
+  }
+};
