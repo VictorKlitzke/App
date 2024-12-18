@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:klitzke_orcamento/components/updateemail_components.dart';
 import 'package:klitzke_orcamento/components/updatepassword_components.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F7FB), 
+      backgroundColor: const Color(0xFFF3F7FB),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -21,8 +22,7 @@ class SettingsPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ListTile(
-              contentPadding: const EdgeInsets.symmetric(
-                  vertical: 2.0),
+              contentPadding: const EdgeInsets.symmetric(vertical: 2.0),
               tileColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4)),
@@ -32,11 +32,12 @@ class SettingsPage extends StatelessWidget {
               ),
               leading: const Icon(Icons.email, color: Color(0xFF0066CC)),
               onTap: () {
-                // Ação de alterar email
+                showDialog(
+                    context: context,
+                    builder: (context) => UpdateEmailComponents());
               },
             ),
             const SizedBox(height: 10),
-
             ListTile(
               contentPadding: const EdgeInsets.symmetric(vertical: 2.0),
               tileColor: Colors.white,
@@ -54,7 +55,6 @@ class SettingsPage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 10),
-
             ListTile(
               contentPadding: const EdgeInsets.symmetric(vertical: 2.0),
               tileColor: Colors.white,

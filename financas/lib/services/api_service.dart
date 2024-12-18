@@ -91,3 +91,28 @@ class GetServices {
     }
   }
 }
+
+class PutServices {
+  Future<bool> updatepassword(String currentpassword, String newpassword,
+      String confirmpassword) async {
+    try {
+      final response = await dio.put('updatepassword', data: {
+        'currentpassword': currentpassword,
+        'newpassword': newpassword,
+        'confirmpassword': confirmpassword,
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      } else if (response.statusCode == 401) {
+        throw Exception('Usuário não autenticado.');
+      } else {
+        throw Exception(
+            'Erro ao atualizar a senha. Código: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Erro ao atualizar senha: $error');
+      return false;
+    }
+  }
+}
