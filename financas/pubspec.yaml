@@ -1,0 +1,28 @@
+name: klitzke_orcamento
+description: A new Flutter project
+
+publish_to: 'none' # Remove this line if you're publishing the package
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.2 
+  dio: ^5.3.2
+  dio_cookie_manager: ^3.1.1
+  cookie_jar: ^4.0.8
+  shared_preferences: ^2.3.3
+  carousel_slider: ^5.0.0
+  fl_chart: ^0.69.2
+  intl: ^0.20.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
