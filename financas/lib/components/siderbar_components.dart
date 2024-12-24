@@ -1,7 +1,54 @@
 import 'package:klitzke_orcamento/dio/api_client.dart';
 import 'package:flutter/material.dart';
+import 'package:klitzke_orcamento/services/api_service.dart';
 
-class SiderBarComponents extends StatelessWidget {
+class SiderBarComponents extends StatefulWidget {
+  @override
+  _SiderBarComponents createState() => _SiderBarComponents();
+}
+
+class _SiderBarComponents extends State<SiderBarComponents> {
+  String usuarioName = '';
+  String usuarioEmail = '';
+  String usuarioAtivo = '';
+
+  final GetServices getServices = GetServices();
+  List<Map<String, dynamic>> getUsers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getUsuarios();
+  }
+
+  void getUsuarios() async {
+    String nome = '';
+    String email = '';
+    String ativo = '';
+    try {
+      final result = await getServices.getuser();
+
+      if (result.isNotEmpty) {
+        nome = result[0]['nome'] ?? 'Desconhecido';
+        email = result[0]['email'] ?? 'Desconhecido';
+        if (result[0]['ativo'] == 1) {
+          ativo = 'Usuário Ativo';
+        }
+      }
+      ;
+
+      usuarioName = nome;
+      usuarioEmail = email;
+      usuarioAtivo = ativo;
+
+      setState(() {
+        getUsers = result;
+      });
+    } catch (error) {
+      print('Erro ao buscar usuários: $error');
+    }
+  }
+
   void logout(BuildContext context) async {
     try {
       final response = await dio.post('logout');
@@ -28,7 +75,7 @@ class SiderBarComponents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: [
         DrawerHeader(
           decoration: const BoxDecoration(
@@ -41,23 +88,24 @@ class SiderBarComponents extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // CircleAvatar(
-                //   radius: 30,
-                //   backgroundImage: NetworkImage(
-                //     '',
-                //   ),
-                // ),
                 const SizedBox(height: 10),
-                const Text(
-                  'Nome do Usuário',
+                Text(
+                  usuarioName,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Text(
-                  'email@exemplo.com',
+                Text(
+                  usuarioEmail,
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 14,
+                  ),
+                ),
+                Text(
+                  usuarioAtivo,
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 14,
@@ -67,37 +115,58 @@ class SiderBarComponents extends StatelessWidget {
             ),
           ),
         ),
-        // ListTile(
-        //   leading: const Icon(Icons.add),
-        //   title: const Text('Criar Orçamento'),
-        //   onTap: () {
-        //     Navigator.pop(context);
-        //     Navigator.pushNamed(context, '/orcamento');
-        //   },
-        // ),
-        ListTile(
-          leading: const Icon(Icons.category),
-          title: const Text('Categorias'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/category');
-          },
+        Expanded(
+          child: ListView(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.add),
+                title: const Text('Criar Orçamento'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/budget');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.category),
+                title: const Text('Categorias'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/category');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.account_balance_outlined),
+                title: const Text('Contas'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/accounts');
+                },
+              ),
+              ExpansionTile(
+                leading: const Icon(Icons.expand),
+                title: const Text('Despesas'),
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.add),
+                    title: const Text('Registrar Transação'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/expense');
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.expand),
+                    title: const Text('Lista Despesas'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/listtransacao');
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-        ListTile(
-            leading: const Icon(Icons.account_balance_outlined),
-            title: const Text('Contas'),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, '/accounts');
-            }),
-        ListTile(
-            leading: const Icon(Icons.expand),
-            title: const Text('Despesas'),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, '/expense');
-            }),
-        const Divider(),
         ListTile(
           leading: const Icon(Icons.exit_to_app),
           title: const Text('Sair'),

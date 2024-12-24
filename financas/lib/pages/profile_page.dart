@@ -37,7 +37,6 @@ class _ProfilePage extends State<ProfilePage> {
 
       setState(() {
         getusers = result;
-        print('Resultado do usuário: $nameUsers');
       });
     } catch (error) {
       print('Erro ao buscar usuários: $error');

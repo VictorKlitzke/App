@@ -61,6 +61,7 @@ exports.logout = async (req, res) => {
 
 exports.register = async (req, res) => {
     const { name, email, password } = req.body;
+    const ativo = 1;
 
     if (!name || !email || !password) {
         return res.status(400).json({ error: 'Nome, email e senha são obrigatórios' });
@@ -70,8 +71,8 @@ exports.register = async (req, res) => {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        const stmt = pool.prepare('INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)');
-        const result = stmt.run(name, email, hashedPassword);
+        const stmt = pool.prepare('INSERT INTO usuarios (nome, email, senha, ativo) VALUES (?, ?, ?, ?)');
+        const result = stmt.run(name, email, hashedPassword, ativo);
 
         return res.status(201).json({ message: 'Usuário criado com sucesso!' });
 
