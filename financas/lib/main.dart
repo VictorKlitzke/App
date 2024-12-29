@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klitzke_orcamento/data/http/http_client.dart';
 import 'package:klitzke_orcamento/data/repositories/transacao_repository.dart';
-import 'package:provider/provider.dart';
 import 'package:klitzke_orcamento/pages/accounts_page.dart';
 import 'package:klitzke_orcamento/pages/category_page.dart';
 import 'package:klitzke_orcamento/pages/createbudget_page.dart';

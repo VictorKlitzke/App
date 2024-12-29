@@ -143,7 +143,7 @@ class _SiderBarComponents extends State<SiderBarComponents> {
                 },
               ),
               ExpansionTile(
-                leading: const Icon(Icons.expand),
+                leading: const Icon(Icons.list),
                 title: const Text('Despesas'),
                 children: [
                   ListTile(

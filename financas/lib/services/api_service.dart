@@ -169,3 +169,46 @@ class PutServices {
     }
   }
 }
+
+class DeleteServices {
+  Future<bool> deleteAccounts(int index) async {
+    try {
+      final response = await dio.delete('deleteAccounts', data: {'index': index});
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
+  Future<bool> deleteCategory(int index) async {
+    try {
+      final response =
+          await dio.delete('deletecategory', data: {'index': index});
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteTransacao(int index) async {
+    try {
+      final response =
+          await dio.delete('deletetransacao', data: {'index': index});
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
+}

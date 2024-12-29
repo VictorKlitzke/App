@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klitzke_orcamento/services/api_service.dart';
+import 'package:klitzke_orcamento/utils/dialog_utils.dart';
 
 class CategoryRegisterPage extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class _CategoryRegisterPageState extends State<CategoryRegisterPage> {
   final TextEditingController categoryController = TextEditingController();
   final GetServices getServices = GetServices();
   final PostServices postServices = PostServices();
+  final DeleteServices deleteServices = DeleteServices();
 
   String selectedType = 'Entrada';
   bool isLoading = false;
@@ -66,6 +68,41 @@ class _CategoryRegisterPageState extends State<CategoryRegisterPage> {
       categoryController.clear();
       fetchCategories();
     }
+  }
+
+  void confirmDelete(int index) async {
+    bool? shouldDelete = await DialogUtils.showConfirmationDialog(
+        context: context,
+        title: 'Confirmação',
+        content: 'Tem certeza que deseja deletar a categoria?');
+
+    if (shouldDelete == true) {
+      DeleteCategory(index);
+    }
+  }
+
+  void DeleteCategory(int index) async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      bool success = await deleteServices.deleteCategory(index);
+
+      if (success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Categoria deletada com sucesso')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Erro ao deletar a categoria')),
+        );
+      }
+    } catch (error) {
+      print('Erro ao deletar categoria: $error');
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -194,10 +231,13 @@ class _CategoryRegisterPageState extends State<CategoryRegisterPage> {
                                   ? Colors.green
                                   : Colors.red,
                             ),
-                            title: Text(category['nome'] ??
-                                'Sem nome'),
-                            subtitle: Text(
-                                'Tipo: ${category['tipo']}'),
+                            title: Text(category['nome'] ?? 'Sem nome'),
+                            subtitle: Text('Tipo: ${category['tipo']}'),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () =>
+                                  confirmDelete(category['id']),
+                            ),
                           ),
                         );
                       },

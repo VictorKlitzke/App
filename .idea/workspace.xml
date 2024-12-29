@@ -5,7 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a4c95c3-382a-4765-898f-f191abcce7e7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Projetos.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Projetos.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/database/financas.db" beforeDir="false" afterPath="$PROJECT_DIR$/api/database/financas.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/routers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/routers/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/financas/lib/components/footer_components.dart" beforeDir="false" afterPath="$PROJECT_DIR$/financas/lib/components/footer_components.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/financas/lib/components/siderbar_components.dart" beforeDir="false" afterPath="$PROJECT_DIR$/financas/lib/components/siderbar_components.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/financas/lib/dio/api_client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/financas/lib/dio/api_client.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/financas/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/financas/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/financas/lib/pages/accounts_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/financas/lib/pages/accounts_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/financas/lib/pages/category_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/financas/lib/pages/category_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/financas/lib/pages/listTransacao_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/financas/lib/pages/listTransacao_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/financas/lib/services/api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/financas/lib/services/api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/financas/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/financas/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,13 +29,19 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 0
-}]]></component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/financas/lib/pages/accounts_page.dart" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2qcoxxPKBPqpJ8ujMYC7Pnr8iZv" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -29,18 +49,51 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Flutter.main.dart.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "settings.editor.selected.configurable": "AndroidSdkUpdater",
-    "show.migrate.to.gradle.popup": "false"
+    "last_opened_file_path": "E:/src/flutter/bin/cache/dart-sdk",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false",
+    "ts.external.directory.path": "E:\\IntelliJ IDEA 2024.3.1.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/financas/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter.main.dart" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.218" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.218" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -49,7 +102,19 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1734971481486</updated>
+      <workItem from="1735341519995" duration="211000" />
+      <workItem from="1735341772705" duration="3732000" />
+      <workItem from="1735438566826" duration="4635000" />
+      <workItem from="1735443442302" duration="326000" />
+      <workItem from="1735499626538" duration="3202000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

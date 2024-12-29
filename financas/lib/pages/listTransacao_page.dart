@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klitzke_orcamento/pages/stores/transacao_sore.dart';
 import 'package:klitzke_orcamento/services/api_service.dart';
+import 'package:klitzke_orcamento/utils/dialog_utils.dart';
 
 class ListTransacao extends StatefulWidget {
   final TransacaoStore store;
@@ -13,6 +14,8 @@ class ListTransacao extends StatefulWidget {
 
 class _ListTransacao extends State<ListTransacao> {
   final GetServices getServices = GetServices();
+  final DeleteServices deleteServices = DeleteServices();
+
   List<Map<String, dynamic>> transacoes = [];
   bool isLoading = false;
 
@@ -35,6 +38,42 @@ class _ListTransacao extends State<ListTransacao> {
       );
       print('Erro ao carregar transações $error');
     }
+  }
+
+  void confirmDeleteTransacao(int index) async {
+    bool? shouldDelete = await DialogUtils.showConfirmationDialog(
+        context: context,
+        title: 'Confirmação',
+        content: 'Tem certeza que deseja deletar esta transação?');
+
+    if (shouldDelete == true) {
+      deleteTransacao(index);
+    }
+  }
+
+  void deleteTransacao(int index) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      bool success = await deleteServices.deleteTransacao(index);
+
+      if (success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Transação deletada com sucesso')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Erro ao deletar a transação')),
+        );
+      }
+    } catch (error) {
+      print('Erro ao deletar transação: $error');
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -95,6 +134,12 @@ class _ListTransacao extends State<ListTransacao> {
                                     fontSize: 14,
                                     color: Colors.grey.shade700,
                                   ),
+                                ),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.delete,
+                                      color: Colors.red),
+                                  onPressed: () =>
+                                      confirmDeleteTransacao(transacao['id']),
                                 ),
                               ),
                             );
